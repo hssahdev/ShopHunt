@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.harshdeep.android.shophunt.network.NetworkUtility;
+
 public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
 
     String keyword;
