@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ShopHunt</string>
+    <string name="search_bar">Enter product to search</string>
+</resources>
