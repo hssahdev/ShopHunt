@@ -9,30 +9,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtility {
 
     private static String FlipkartBaseAddress = "https://affiliate-api.flipkart.net/affiliate/1.0/search.json?query=";
-
-    /*
-     * Your Access Key ID, as taken from the Your Account page.
-     */
-    private static final String ACCESS_KEY_ID = "AKIAJIPQKZ2LJUWMMCSA";
-
-    /*
-     * Your Secret Key corresponding to the above ID, as taken from the
-     * Your Account page.
-     */
-    private static final String SECRET_KEY = "qVRBsS6vxwvvefMFL+87J9BMT4RwOeb4lPeE338e";
-
-    /*
-     * Use the end-point according to the region you are interested in.
-     */
-    private static final String ENDPOINT = "webservices.amazon.in";
-
-
 
     private NetworkUtility(){
 
@@ -95,20 +79,40 @@ public class NetworkUtility {
 
             HttpURLConnection urlConnection;
 
-            String []array=query.split(" ");
-            StringBuilder stringBuilder = new StringBuilder();
-            for(int i=0;i<array.length-1;i++){
-                stringBuilder.append(array[i]);
-                stringBuilder.append("+");
-            }
-            stringBuilder.append(array[array.length-1]);
+//            String []array=query.split(" ");
+//            StringBuilder stringBuilder = new StringBuilder();
+//            for(int i=0;i<array.length-1;i++){
+//                stringBuilder.append(array[i]);
+//                stringBuilder.append("+");
+//            }
+//            stringBuilder.append(array[array.length-1]);
 
-//        String rawURL = "http://webservices.amazon.in/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&
-//          SubscriptionId=AKIAJIPQKZ2LJUWMMCSA&AssociateTag=hssahdev-21&SearchIndex=All&Keywords="+stringBuilder.toString()+"&ResponseGroup=Images,ItemAttributes,ItemIds,Offers";
+            SignedRequestsHelper helper;
 
-            String rawURL = "http://webservices.amazon.in/onca/xml?AWSAccessKeyId=AKIAJIPQKZ2LJUWMMCSA&AssociateTag=hssahdev-21&Keywords=iPhone&Operation=ItemSearch&ResponseGroup=Images%2CItemAttributes%2CItemIds%2COffers&SearchIndex=All&Service=AWSECommerceService&Timestamp=2018-04-12T16%3A21%3A27.000Z&Signature=j3swzsNiWwGz8k1UXs9NmPiVTg0hJT72h7ayzI3nttA%3D";
             try {
-                URL url = new URL(rawURL);
+                helper = new SignedRequestsHelper();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            String requestUrl = null;
+
+            Map<String, String> params = new HashMap<String, String>();
+
+            params.put("Service", "AWSECommerceService");
+            params.put("Operation", "ItemSearch");
+//            params.put("AWSAccessKeyId", "AKIAJIPQKZ2LJUWMMCSA");
+            params.put("AssociateTag", "hssahdev-21");
+            params.put("SearchIndex", "All");
+            params.put("Keywords", query);
+            params.put("ResponseGroup", "Images,ItemAttributes,ItemIds,Offers");
+
+            requestUrl = helper.sign(params);
+            Log.v("aurl",requestUrl);
+
+            try {
+                URL url = new URL(requestUrl);
                 urlConnection= (HttpURLConnection) url.openConnection();
 //                urlConnection.addRequestProperty("Fk-Affiliate-Id","hssahdev252");
 //                urlConnection.addRequestProperty("Fk-Affiliate-Token","5701c05526e74de1a0f4356df6834a89");

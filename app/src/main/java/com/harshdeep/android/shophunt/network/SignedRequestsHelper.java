@@ -1,16 +1,13 @@
 package com.harshdeep.android.shophunt.network;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.UnsupportedEncodingException;
-
 import java.net.URLEncoder;
-
-
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -21,6 +18,7 @@ import java.util.TreeMap;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+
 public class SignedRequestsHelper {
     private static final String UTF8_CHARSET = "UTF-8";
     private static final String HMAC_SHA256_ALGORITHM = "HmacSHA256";
@@ -29,9 +27,9 @@ public class SignedRequestsHelper {
 
 
 
-    private String endpoint = "webservices.amazon.com"; // must be lowercase
-    private String awsAccessKeyId = "YOUR AWS ACCESS KEY";
-    private String awsSecretKey = "YOUR AWS SECRET KEY";
+    private String endpoint = "webservices.amazon.in"; // must be lowercase
+    private String awsAccessKeyId = "AKIAJIPQKZ2LJUWMMCSA";
+    private String awsSecretKey = "qVRBsS6vxwvvefMFL+87J9BMT4RwOeb4lPeE338e";
 
     private SecretKeySpec secretKeySpec = null;
     private Mac mac = null;
@@ -85,12 +83,14 @@ public class SignedRequestsHelper {
         try {
             data = stringToSign.getBytes(UTF8_CHARSET);
             rawHmac = mac.doFinal(data);
-
             Base64 encoder = new Base64();
+
+
             signature = new String(encoder.encode(rawHmac));
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(UTF8_CHARSET + " is unsupported!", e);
         }
+
         return signature;
     }
 
