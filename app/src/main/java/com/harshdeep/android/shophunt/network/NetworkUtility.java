@@ -37,7 +37,7 @@ public class NetworkUtility {
             stringBuilder.append(array[array.length-1]);
 
 
-            URL url=new URL(FlipkartBaseAddress+stringBuilder.toString()+"&resultCount=5");
+            URL url=new URL(FlipkartBaseAddress+stringBuilder.toString()+"&resultCount=20");
             Log.v("url",url.toString());
 
             urlConnection= (HttpsURLConnection) url.openConnection();
@@ -75,7 +75,7 @@ public class NetworkUtility {
             return JSONResponse;
         }
 
-        public static String getAmazonResponse(String query){
+        public static InputStream getAmazonResponse(String query){
 
             HttpURLConnection urlConnection;
 
@@ -114,8 +114,6 @@ public class NetworkUtility {
             try {
                 URL url = new URL(requestUrl);
                 urlConnection= (HttpURLConnection) url.openConnection();
-//                urlConnection.addRequestProperty("Fk-Affiliate-Id","hssahdev252");
-//                urlConnection.addRequestProperty("Fk-Affiliate-Token","5701c05526e74de1a0f4356df6834a89");
                 urlConnection.setConnectTimeout(10000);
                 urlConnection.setReadTimeout(10000);
 
@@ -134,10 +132,10 @@ public class NetworkUtility {
                         builder.append(line);
                         line=bufferedReader.readLine();
                     }
-                    inputStream.close();
+//                    inputStream.close();
 
                     Log.v("aws",(builder.toString()));
-                    return builder.toString();
+                    return inputStream;
                 }else
                     Log.v("aws","wrong request");
 

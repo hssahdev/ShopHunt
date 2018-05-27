@@ -1,18 +1,20 @@
 package com.harshdeep.android.shophunt;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
 
-import com.harshdeep.android.shophunt.network.NetworkUtility;
+import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
+
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
 
@@ -38,8 +40,6 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
-
-
     }
 
     @NonNull
@@ -50,34 +50,25 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(@NonNull Loader loader, Object data) {
-        String obj = (String) data;
-        TextView t = findViewById(R.id.text);
         findViewById(R.id.progreeBar).setVisibility(View.GONE);
-        if(obj!=null)
-        t.setText(obj);
-        else
-            t.setText("not");
+        final List list = (List) data;
+        ProductListAdapter listAdapter = new ProductListAdapter(this,0,list);
+        ListView listView = findViewById(R.id.listView);
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                FlipkartProduct current = (FlipkartProduct) list.get(i);
+                Intent web = new Intent(SearchActivity.this,WebsiteActivity.class);
+                web.putExtra("url",current.getFlipkartURL());
+                startActivity(web);
+            }
+        });
         loader.abandon();
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader loader) {
-    }
-}
-
-class NetworkingLoader extends AsyncTaskLoader<String>{
-
-    String keyword;
-
-    public NetworkingLoader(@NonNull Context context, String keyword) {
-        super(context);
-        this.keyword=keyword;
-    }
-
-    @Nullable
-    @Override
-    public String loadInBackground() {
-        return NetworkUtility.getAmazonResponse(keyword);
     }
 }
 
