@@ -9,9 +9,8 @@ import com.harshdeep.android.shophunt.Parsing.AmazonXMLParsing;
 import com.harshdeep.android.shophunt.Parsing.FlipkartJSONParsing;
 import com.harshdeep.android.shophunt.network.NetworkUtility;
 
-import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NetworkingLoader extends AsyncTaskLoader<List<Product>> {
@@ -26,15 +25,30 @@ public class NetworkingLoader extends AsyncTaskLoader<List<Product>> {
     @Nullable
     @Override
     public List<Product> loadInBackground() {
+        List <Product>AmazonProducts,FlipkartProducts, finallist;
+        finallist=new ArrayList<>();
         FlipkartJSONParsing flipkartJSONParsing = new FlipkartJSONParsing(NetworkUtility.createURLandGetJSONResponseFlipkart(keyword));
         AmazonXMLParsing amazonXMLParsing = new AmazonXMLParsing(NetworkUtility.getAmazonResponse(keyword));
         try {
-            amazonXMLParsing.getProducts();
+            AmazonProducts = amazonXMLParsing.getProducts();
+            if(AmazonProducts==null)
+                return null;
+            FlipkartProducts = flipkartJSONParsing.getProducts();
+            for (int i=0;i<FlipkartProducts.size();i++){
+                AmazonProduct yo = (AmazonProduct) AmazonProducts.get(i);
+                String title = yo.getProductTitle();
+                String URL = yo.getImageURL();
+                String prURL = yo.getAmazonURL();
+                int price = yo.getPrice();
+
+                System.out.println(title+" "+URL+" "+prURL+" "+price);
+                finallist.add(yo);
+                finallist.add(FlipkartProducts.get(i));
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
         }
-        return flipkartJSONParsing.getProducts();
+        return finallist;
     }
 }

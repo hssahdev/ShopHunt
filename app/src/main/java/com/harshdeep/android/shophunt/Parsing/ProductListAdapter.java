@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.harshdeep.android.shophunt.FlipkartProduct;
 import com.harshdeep.android.shophunt.Product;
 import com.harshdeep.android.shophunt.R;
 import com.squareup.picasso.Picasso;
@@ -30,16 +29,23 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_item,parent,false);
         }
 
-        FlipkartProduct current = (FlipkartProduct) getItem(position);
+        Product current = getItem(position);
 
         ImageView imageView = convertView.findViewById(R.id.image);
         Picasso.get().load(current.getImageURL()).into(imageView);
+
+        ImageView logoImage = convertView.findViewById(R.id.logo);
+
+        if(current.isFlipkart())
+            logoImage.setImageResource(R.drawable.flipkart_logo_detail);
+        else
+            logoImage.setImageResource(R.drawable.amazon_logo);
 
         TextView textView = (TextView)convertView.findViewById(R.id.productTitle);
         textView.setText(current.getProductTitle().trim());
 
         textView = convertView.findViewById(R.id.Flipkartprice);
-        textView.setText("₹ "+current.getFlipkartPrice());
+        textView.setText("₹ "+current.getPrice());
 
 
         return convertView;

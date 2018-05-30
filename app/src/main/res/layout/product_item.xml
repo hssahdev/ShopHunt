@@ -9,27 +9,42 @@
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
+        android:layout_margin="5dp"
         android:id="@+id/image"
         tools:src="@drawable/ic_launcher_background"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            tools:text="Title"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            tools:text="Titsdfgdfgygdfgkjhlkjghkldjhkhghskgggghhgghghdhgkjhkjghkjhkdhgkjfkjghdkgkhkhgkhdkghkhghgle"
             android:id="@+id/productTitle"/>
+
         <TextView
-            android:layout_marginLeft="5dp"
+            android:id="@+id/Flipkartprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:id="@+id/Flipkartprice"
-            tools:text="afds"/>
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            tools:text="afds" />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="12dp"
+            android:id="@+id/logo"
+            android:layout_toLeftOf="@id/Flipkartprice"
+            tools:src="@drawable/amazon_logo"/>
+    </RelativeLayout>
 
 </LinearLayout>

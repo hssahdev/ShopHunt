@@ -1,7 +1,5 @@
 package com.harshdeep.android.shophunt.Parsing;
 
-import android.util.Log;
-
 import com.harshdeep.android.shophunt.FlipkartProduct;
 import com.harshdeep.android.shophunt.Product;
 
@@ -37,7 +35,7 @@ public class FlipkartJSONParsing {
                 int price = (int) productsArray.getJSONObject(i).getJSONObject("productBaseInfoV1").getJSONObject("flipkartSpecialPrice").getDouble("amount");
                 String productURL = productsArray.getJSONObject(i).getJSONObject("productBaseInfoV1").getString("productUrl");
 
-                Log.v("flipkart",title+price);
+//                Log.v("flipkart",title+price);
 
                 FlipkartProduct product = new FlipkartProduct(title);
                 product.setFlipkartPrice(price);

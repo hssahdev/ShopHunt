@@ -1,7 +1,5 @@
 package com.harshdeep.android.shophunt;
 
-import android.util.Log;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -9,20 +7,12 @@ import java.io.IOException;
 
 public class AmazonProduct extends Product {
 
-    private int AmazonPrice;
 
     private String AmazonURL;
 
     public AmazonProduct() {
         super();
-    }
-
-    public int getAmazonPrice() {
-        return AmazonPrice;
-    }
-
-    public void setAmazonPrice(int amazonPrice) {
-        AmazonPrice = amazonPrice;
+        setFlipkart(false);
     }
 
     public String getAmazonURL() {
@@ -33,33 +23,6 @@ public class AmazonProduct extends Product {
         AmazonURL = amazonURL;
     }
 
-    public AmazonProduct readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
-        while (parser.next()!=XmlPullParser.END_TAG){
-            if (parser.getEventType()!=XmlPullParser.START_TAG)
-                continue;
-
-            if(parser.getName().equals("Item"))
-            {
-                while (parser.next()!=XmlPullParser.END_TAG){
-                    if (parser.getEventType()!=XmlPullParser.START_TAG)
-                        continue;
-                    if(parser.getName().equals("MoreSearchResultsUrl")){
-                        Log.v("awsResposeParsing",parser.getText());
-
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    private String readAmazonURL(XmlPullParser parser) throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, null, "DetailPageURL");
-        String title = readText(parser);
-        parser.require(XmlPullParser.END_TAG, null, "DetailPageURL");
-        Log.v("amazonproduct",title);
-        return title;
-    }
 
     private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
         String result = "";
@@ -68,5 +31,53 @@ public class AmazonProduct extends Product {
             parser.nextTag();
         }
         return result;
+    }
+
+    public void parseXML(XmlPullParser parser) {
+        int event;
+        boolean [] flag=new boolean[4];
+
+        try {
+//            parser.require(XmlPullParser.START_TAG, null, "Item");
+            event = parser.getEventType();
+
+
+        while (event!=XmlPullParser.END_DOCUMENT) {
+
+            switch (event) {
+                case XmlPullParser.START_TAG:
+                    if(parser.getName().equals("DetailPageURL")){
+//                        System.out.println(readText(parser));
+                        setAmazonURL(readText(parser));
+                        flag[0]=true;
+                    }
+                    else if(parser.getName().equals("LargeImage") && !flag[1]){
+                        parser.nextTag();
+//                        System.out.println(readText(parser));
+                        setImageURL(readText(parser));
+                        flag[1]=true;
+                    }
+                    else if (parser.getName().equals("Title")) {
+//                        System.out.println(readText(parser));
+                        setProductTitle(readText(parser));
+                        flag[2]=true;
+                    }
+                    else if(parser.getName().equals("Price")){
+                        while(!parser.getName().equals("Amount"))
+                            parser.nextTag();
+//                        System.out.println(readText(parser));
+                        setPrice(Integer.parseInt(readText(parser))/100);
+                        flag[3]=true;
+                    }
+            }
+            if(flag[0] && flag[1] && flag[2] && flag[3])
+                return;
+            event = parser.next();
+        }
+        }catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
