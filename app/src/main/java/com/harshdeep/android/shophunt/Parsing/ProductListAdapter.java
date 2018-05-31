@@ -44,7 +44,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         TextView textView = (TextView)convertView.findViewById(R.id.productTitle);
         textView.setText(current.getProductTitle().trim());
 
-        textView = convertView.findViewById(R.id.Flipkartprice);
+        textView = convertView.findViewById(R.id.price);
         textView.setText("₹ "+current.getPrice());
 
 

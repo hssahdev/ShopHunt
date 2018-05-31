@@ -31,21 +31,41 @@ public class NetworkingLoader extends AsyncTaskLoader<List<Product>> {
         AmazonXMLParsing amazonXMLParsing = new AmazonXMLParsing(NetworkUtility.getAmazonResponse(keyword));
         try {
             AmazonProducts = amazonXMLParsing.getProducts();
-            if(AmazonProducts==null)
-                return null;
             FlipkartProducts = flipkartJSONParsing.getProducts();
-            for (int i=0;i<FlipkartProducts.size();i++){
-                AmazonProduct yo = (AmazonProduct) AmazonProducts.get(i);
-                String title = yo.getProductTitle();
-                String URL = yo.getImageURL();
-                String prURL = yo.getAmazonURL();
-                int price = yo.getPrice();
 
-                System.out.println(title+" "+URL+" "+prURL+" "+price);
-                finallist.add(yo);
-                finallist.add(FlipkartProducts.get(i));
+            int fp=0,am=0;
+
+            if(FlipkartProducts == null || AmazonProducts== null)
+                return null;
+
+            while (true){
+                if(fp<FlipkartProducts.size()){
+                    finallist.add(FlipkartProducts.get(fp));
+                    fp++;
+                }
+
+                if(am<AmazonProducts.size()-1){
+                    finallist.add(AmazonProducts.get(am));
+                    am++;
+                }
+
+                if(am>=AmazonProducts.size()-1 && fp>=FlipkartProducts.size())
+                    break;
 
             }
+//            for (int i=0;i<FlipkartProducts.size();i++){
+//
+//                AmazonProduct yo = (AmazonProduct) AmazonProducts.get(i);
+//                String title = yo.getProductTitle();
+//                String URL = yo.getImageURL();
+//                String prURL = yo.getAmazonURL();
+//                int price = yo.getPrice();
+//
+//                System.out.println(title+" "+URL+" "+prURL+" "+price);
+//                finallist.add(yo);
+//                finallist.add(FlipkartProducts.get(i));
+//
+//            }
         } catch (IOException e) {
             e.printStackTrace();
         }
