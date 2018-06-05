@@ -51,16 +51,29 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoadFinished(@NonNull Loader loader, Object data) {
         findViewById(R.id.progreeBar).setVisibility(View.GONE);
-        final List list = (List) data;
-        ProductListAdapter listAdapter = new ProductListAdapter(this,0,list);
         ListView listView = findViewById(R.id.listView);
+        listView.setEmptyView(findViewById(R.id.emptyView));
+        final List list = (List) data;
+        if(list!=null){
+        ProductListAdapter listAdapter = new ProductListAdapter(this,0,list);
         listView.setAdapter(listAdapter);
+        }else
+            findViewById(R.id.emptyView).setVisibility(View.VISIBLE);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FlipkartProduct current = (FlipkartProduct) list.get(i);
+                Product current = (Product) list.get(i);
                 Intent web = new Intent(SearchActivity.this,WebsiteActivity.class);
-                web.putExtra("url",current.getFlipkartURL());
+                String url;
+                if(current.isFlipkart){
+                    FlipkartProduct bss = (FlipkartProduct)current;
+                    web.putExtra("url",bss.getFlipkartURL());
+                }
+                else {
+                    AmazonProduct am = (AmazonProduct)current;
+                    web.putExtra("url",am.getAmazonURL());
+                }
                 startActivity(web);
             }
         });

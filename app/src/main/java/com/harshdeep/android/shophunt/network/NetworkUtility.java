@@ -79,14 +79,6 @@ public class NetworkUtility {
 
             HttpURLConnection urlConnection;
 
-//            String []array=query.split(" ");
-//            StringBuilder stringBuilder = new StringBuilder();
-//            for(int i=0;i<array.length-1;i++){
-//                stringBuilder.append(array[i]);
-//                stringBuilder.append("+");
-//            }
-//            stringBuilder.append(array[array.length-1]);
-
             SignedRequestsHelper helper;
 
             try {
@@ -122,19 +114,19 @@ public class NetworkUtility {
                 if(urlConnection.getResponseCode()==200){
 
                     InputStream inputStream=urlConnection.getInputStream();
-                    InputStreamReader reader=new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-                    BufferedReader bufferedReader=new BufferedReader(reader);
-
-                    StringBuilder builder = new StringBuilder();
-                    String line=bufferedReader.readLine();
-
-                    while(line!=null){
-                        builder.append(line);
-                        line=bufferedReader.readLine();
-                    }
-//                    inputStream.close();
-
-                    Log.v("aws",(builder.toString()));
+//                    InputStreamReader reader=new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+//                    BufferedReader bufferedReader=new BufferedReader(reader);
+//
+//                    StringBuilder builder = new StringBuilder();
+//                    String line=bufferedReader.readLine();
+//
+//                    while(line!=null){
+//                        builder.append(line);
+//                        line=bufferedReader.readLine();
+//                    }
+////                    inputStream.close();
+//
+//                    Log.v("aws",(builder.toString()));
                     return inputStream;
                 }else
                     Log.v("aws","wrong request");
