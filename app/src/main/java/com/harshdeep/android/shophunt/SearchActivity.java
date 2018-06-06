@@ -1,15 +1,21 @@
 package com.harshdeep.android.shophunt;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
@@ -26,20 +32,58 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_search);
 
         final EditText editText=findViewById(R.id.Key);
+        editText.clearFocus();
 
         if(getSupportLoaderManager().getLoader(0)!=null)
             getSupportLoaderManager().initLoader(0,null,this);
 
+
+
+        final View view1 = findViewById(R.id.emptyView);
+        view1.setVisibility(View.GONE);
+
+
         findViewById(R.id.arrowButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                keyword=editText.getText().toString().trim();
 
-                findViewById(R.id.progreeBar).setVisibility(View.VISIBLE);
-                getSupportLoaderManager().restartLoader(0,null,SearchActivity.this).forceLoad();
+                keyword=editText.getText().toString().trim();
+                hideKeyboard(SearchActivity.this);
+                editText.clearFocus();
+
+                if(!isConnectedtoInternet()){
+                    view1.setVisibility(View.VISIBLE);
+                    ImageView imageView = view1.findViewById(R.id.nulllist);
+                    imageView.setImageResource(R.drawable.nointernet_r_2x);
+
+                }
+                else if(keyword.length()==0){
+                    editText.setError("This cannot be empty");
+                }else {
+                    editText.setError(null);
+                    findViewById(R.id.progreeBar).setVisibility(View.VISIBLE);
+                    getSupportLoaderManager().restartLoader(0, null, SearchActivity.this).forceLoad();
+                }
             }
         });
 
+    }
+
+    private void hideKeyboard(AppCompatActivity activity){
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    private boolean isConnectedtoInternet(){
+
+        ConnectivityManager connectivityManager=(ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+
+        boolean isConnected = networkInfo!=null && networkInfo.isConnectedOrConnecting();
+        Log.v("IsConnected",isConnected+"");
+        return isConnected;
     }
 
     @NonNull
@@ -53,12 +97,17 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         findViewById(R.id.progreeBar).setVisibility(View.GONE);
         ListView listView = findViewById(R.id.listView);
         listView.setEmptyView(findViewById(R.id.emptyView));
+
+        View view = findViewById(R.id.emptyView);
+        ImageView imageView = view.findViewById(R.id.nulllist);
+        imageView.setImageResource(R.drawable.search_error);
         final List list = (List) data;
         if(list!=null){
         ProductListAdapter listAdapter = new ProductListAdapter(this,0,list);
         listView.setAdapter(listAdapter);
-        }else
-            findViewById(R.id.emptyView).setVisibility(View.VISIBLE);
+        }else{
+            view.setVisibility(View.VISIBLE);
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
