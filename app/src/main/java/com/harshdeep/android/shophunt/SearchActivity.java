@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -140,15 +141,17 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Product current = (Product) list.get(i);
-                Intent web = new Intent(SearchActivity.this,WebsiteActivity.class);
-                String url;
+                Intent web = new Intent();
+                web.setAction(Intent.ACTION_VIEW);
+
+
                 if(current.isFlipkart){
                     FlipkartProduct bss = (FlipkartProduct)current;
-                    web.putExtra("url",bss.getFlipkartURL());
+                    web.setData(Uri.parse(bss.getFlipkartURL()));
                 }
                 else {
                     AmazonProduct am = (AmazonProduct)current;
-                    web.putExtra("url",am.getAmazonURL());
+                    web.setData(Uri.parse(am.getAmazonURL()));
                 }
                 startActivity(web);
             }
