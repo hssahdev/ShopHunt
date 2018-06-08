@@ -1,6 +1,7 @@
 package com.harshdeep.android.shophunt;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -8,11 +9,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -26,14 +37,35 @@ import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
+public class DrawerActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,LoaderManager.LoaderCallbacks {
 
     String keyword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_drawer);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         final EditText editText=findViewById(R.id.Key);
         editText.clearFocus();
@@ -71,7 +103,6 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
                 processRequest(editText,view1);
             }
         });
-
     }
 
     private void processRequest(EditText editText, View view1){
@@ -91,7 +122,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         }else {
             editText.setError(null);
             findViewById(R.id.progreeBar).setVisibility(View.VISIBLE);
-            getSupportLoaderManager().restartLoader(0, null, SearchActivity.this).forceLoad();
+            getSupportLoaderManager().restartLoader(0, null, DrawerActivity.this).forceLoad();
         }
     }
 
@@ -114,6 +145,78 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         return isConnected;
     }
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            final AlertDialog.Builder builder= new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to quit?");
+            builder.setNegativeButton("Quit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    DrawerActivity.super.onBackPressed();
+                }
+            });
+            builder.setPositiveButton("Stay", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+
+            builder.create().show();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.drawer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
     @NonNull
     @Override
     public Loader onCreateLoader(int id, @Nullable Bundle args) {
@@ -131,8 +234,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         imageView.setImageResource(R.drawable.search_error);
         final List list = (List) data;
         if(list!=null){
-        ProductListAdapter listAdapter = new ProductListAdapter(this,0,list);
-        listView.setAdapter(listAdapter);
+            ProductListAdapter listAdapter = new ProductListAdapter(this,0,list);
+            listView.setAdapter(listAdapter);
         }else{
             view.setVisibility(View.VISIBLE);
         }
@@ -163,4 +266,3 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoaderReset(@NonNull Loader loader) {
     }
 }
-
