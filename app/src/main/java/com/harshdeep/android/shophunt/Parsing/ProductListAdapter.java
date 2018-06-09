@@ -1,6 +1,7 @@
 package com.harshdeep.android.shophunt.Parsing;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,7 +15,9 @@ import com.harshdeep.android.shophunt.Product;
 import com.harshdeep.android.shophunt.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductListAdapter extends ArrayAdapter<Product> {
 
@@ -26,7 +29,10 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView==null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_item,parent,false);
+            if(isListView())
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_item_list,parent,false);
+            else
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_item_grid,parent,false);
         }
 
         Product current = getItem(position);
@@ -45,9 +51,16 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         textView.setText(current.getProductTitle().trim());
 
         textView = convertView.findViewById(R.id.price);
-        textView.setText("₹ "+current.getPrice());
+        NumberFormat numberFormat = NumberFormat.getInstance(new Locale("hi", "IN"));
+        textView.setText(numberFormat.getCurrency().getSymbol()+numberFormat.format(current.getPrice()));
 
 
         return convertView;
+    }
+
+    private boolean isListView(){
+        SharedPreferences preferences = getContext().getSharedPreferences(getContext().getResources().getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        return preferences.getBoolean("isList",true);
+
     }
 }
