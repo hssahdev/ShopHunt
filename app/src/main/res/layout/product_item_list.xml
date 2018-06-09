@@ -50,7 +50,7 @@
         android:gravity="bottom"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/price"
@@ -58,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
@@ -66,10 +65,13 @@
 
         <ImageView
             android:layout_width="80dp"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:id="@+id/logo"
-            android:layout_toLeftOf="@id/price"
+            android:layout_toStartOf="@id/price"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
             tools:src="@drawable/amazon_logo"/>
+
     </RelativeLayout>
 
     </LinearLayout>

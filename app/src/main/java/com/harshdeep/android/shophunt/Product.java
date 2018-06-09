@@ -1,6 +1,8 @@
 package com.harshdeep.android.shophunt;
 
-public class Product {
+import android.support.annotation.NonNull;
+
+public class Product implements Comparable<Product> {
     private String productTitle;
 
     private int price;
@@ -47,5 +49,15 @@ public class Product {
     public void setImageURL(String imageURL) {
         ImageURL = imageURL;
 
+    }
+
+    @Override
+    public int compareTo(@NonNull Product product) {
+        if(price>product.price)
+            return 1;
+        else if(price<product.price)
+            return -1;
+        else
+            return 0;
     }
 }
