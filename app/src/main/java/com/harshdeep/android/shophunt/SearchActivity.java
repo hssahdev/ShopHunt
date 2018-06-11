@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
@@ -41,9 +40,10 @@ import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,LoaderManager.LoaderCallbacks {
+        implements NavigationView.OnNavigationItemSelectedListener,LoaderManager.LoaderCallbacks , FilterDialogBox.GetList{
 
     String keyword;
+    List<Product> productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +53,13 @@ public class SearchActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FilterDialogBox dialogBox = new FilterDialogBox();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                dialogBox.show(getSupportFragmentManager(),null);
             }
         });
 
@@ -108,7 +110,7 @@ public class SearchActivity extends AppCompatActivity
         });
     }
 
-    private void processRequest(EditText editText, View view1){
+    public void processRequest(EditText editText, View view1){
 
         keyword=editText.getText().toString().trim();
 
@@ -281,58 +283,57 @@ public class SearchActivity extends AppCompatActivity
         final List list = (List) data;
 
         if(list!=null){
-            ProductListAdapter listAdapter = new ProductListAdapter(this,0,list);
+            productList=(List<Product>) data;
+            ProductListAdapter listAdapter = new ProductListAdapter(this,0,productList);
             listView.setAdapter(listAdapter);
             gridView.setAdapter(listAdapter);
         }else{
             view.setVisibility(View.VISIBLE);
         }
 
-        if(isListView()) {
-
-            gridView.setVisibility(View.GONE);
-
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Product current = (Product) list.get(i);
-                    Intent web = new Intent();
-                    web.setAction(Intent.ACTION_VIEW);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Product current = (Product) list.get(i);
+                Intent web = new Intent();
+                web.setAction(Intent.ACTION_VIEW);
 
 
-                    if (current.isFlipkart) {
-                        FlipkartProduct bss = (FlipkartProduct) current;
-                        web.setData(Uri.parse(bss.getFlipkartURL()));
-                    } else {
-                        AmazonProduct am = (AmazonProduct) current;
-                        web.setData(Uri.parse(am.getAmazonURL()));
-                    }
-                    startActivity(web);
+                if (current.isFlipkart) {
+                    FlipkartProduct bss = (FlipkartProduct) current;
+                    web.setData(Uri.parse(bss.getFlipkartURL()));
+                } else {
+                    AmazonProduct am = (AmazonProduct) current;
+                    web.setData(Uri.parse(am.getAmazonURL()));
                 }
-            });
+                startActivity(web);
+            }
+        });
 
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Product current = (Product) list.get(i);
+                Intent web = new Intent();
+                web.setAction(Intent.ACTION_VIEW);
+
+
+                if (current.isFlipkart) {
+                    FlipkartProduct bss = (FlipkartProduct) current;
+                    web.setData(Uri.parse(bss.getFlipkartURL()));
+                } else {
+                    AmazonProduct am = (AmazonProduct) current;
+                    web.setData(Uri.parse(am.getAmazonURL()));
+                }
+                startActivity(web);
+            }
+        });
+
+        if(isListView()) {
+            gridView.setVisibility(View.GONE);
         }
         else{
             listView.setVisibility(View.GONE);
-
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Product current = (Product) list.get(i);
-                    Intent web = new Intent();
-                    web.setAction(Intent.ACTION_VIEW);
-
-
-                    if (current.isFlipkart) {
-                        FlipkartProduct bss = (FlipkartProduct) current;
-                        web.setData(Uri.parse(bss.getFlipkartURL()));
-                    } else {
-                        AmazonProduct am = (AmazonProduct) current;
-                        web.setData(Uri.parse(am.getAmazonURL()));
-                    }
-                    startActivity(web);
-                }
-            });
         }
         loader.abandon();
 
@@ -340,5 +341,9 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(@NonNull Loader loader) {
+    }
+
+    interface blah{
+        void is();
     }
 }

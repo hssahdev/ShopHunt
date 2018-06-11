@@ -71,8 +71,8 @@ public class NetworkUtility {
             if(urlConnection!=null)
             urlConnection.disconnect();
         }
-//        Log.v("flip",JSONResponse);
-            return JSONResponse;
+        Log.v("FlipkartJSON",JSONResponse);
+        return JSONResponse;
         }
 
         public static InputStream getAmazonResponse(String query){

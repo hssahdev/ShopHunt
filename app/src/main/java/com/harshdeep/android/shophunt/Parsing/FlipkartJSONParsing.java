@@ -39,7 +39,6 @@ public class FlipkartJSONParsing {
                 int price = (int) productsArray.getJSONObject(i).getJSONObject("productBaseInfoV1").getJSONObject("flipkartSpecialPrice").getDouble("amount");
                 String productURL = productsArray.getJSONObject(i).getJSONObject("productBaseInfoV1").getString("productUrl");
 
-//                Log.v("flipkart",title+price);
 
                 FlipkartProduct product = new FlipkartProduct(title);
                 product.setFlipkartPrice(price);
