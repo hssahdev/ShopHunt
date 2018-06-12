@@ -37,25 +37,35 @@ public class NetworkingLoader extends AsyncTaskLoader<List<Product>> {
             AmazonProducts = amazonXMLParsing.getProducts();
             FlipkartProducts = flipkartJSONParsing.getProducts();
 
+            if(AmazonProducts!=null)
+            AmazonProducts.remove(AmazonProducts.size()-1);
+
             int fp=0,am=0;
 
-            if(FlipkartProducts == null || AmazonProducts== null)
+            if(FlipkartProducts == null && AmazonProducts== null)
                 return null;
+            else if(FlipkartProducts == null && AmazonProducts!= null){
+                finallist=AmazonProducts;
+            }else if(FlipkartProducts != null && AmazonProducts == null){
+                finallist=FlipkartProducts;
+            }
+            else {
 
-            while (true){
-                if(fp<FlipkartProducts.size()){
-                    finallist.add(FlipkartProducts.get(fp));
-                    fp++;
+                while (true) {
+                    if (fp < FlipkartProducts.size()) {
+                        finallist.add(FlipkartProducts.get(fp));
+                        fp++;
+                    }
+
+                    if (am < AmazonProducts.size()) {
+                        finallist.add(AmazonProducts.get(am));
+                        am++;
+                    }
+
+                    if (am >= AmazonProducts.size() && fp >= FlipkartProducts.size())
+                        break;
+
                 }
-
-                if(am<AmazonProducts.size()-1){
-                    finallist.add(AmazonProducts.get(am));
-                    am++;
-                }
-
-                if(am>=AmazonProducts.size()-1 && fp>=FlipkartProducts.size())
-                    break;
-
             }
 
         } catch (IOException e) {

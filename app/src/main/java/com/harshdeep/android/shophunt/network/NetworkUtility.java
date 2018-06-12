@@ -37,14 +37,16 @@ public class NetworkUtility {
             stringBuilder.append(array[array.length-1]);
 
 
-            URL url=new URL(FlipkartBaseAddress+stringBuilder.toString()+"&resultCount=20");
+            URL url=new URL(FlipkartBaseAddress+stringBuilder.toString()+"&resultCount=10");
             Log.v("url",url.toString());
 
             urlConnection= (HttpsURLConnection) url.openConnection();
             urlConnection.addRequestProperty("Fk-Affiliate-Id","hssahdev252");
-            urlConnection.addRequestProperty("Fk-Affiliate-Token","5701c05526e74de1a0f4356df6834a89");
+            urlConnection.addRequestProperty("Fk-Affiliate-Token","364dd3f1773b4c0384beb95c37b68a43");
             urlConnection.setConnectTimeout(10000);
             urlConnection.setReadTimeout(10000);
+            urlConnection.setRequestMethod("GET");
+
             urlConnection.connect();
 
             if(urlConnection.getResponseCode()==200){
@@ -71,7 +73,11 @@ public class NetworkUtility {
             if(urlConnection!=null)
             urlConnection.disconnect();
         }
-        Log.v("FlipkartJSON",JSONResponse);
+        if(JSONResponse!=null)
+            Log.v("FlipkartJSON",JSONResponse);
+        else
+            Log.v("FlipkartJSON","null");
+
         return JSONResponse;
         }
 
@@ -94,27 +100,27 @@ public class NetworkUtility {
 
             params.put("Service", "AWSECommerceService");
             params.put("Operation", "ItemSearch");
-//            params.put("AWSAccessKeyId", "AKIAJIPQKZ2LJUWMMCSA");
             params.put("AssociateTag", "hssahdev-21");
             params.put("SearchIndex", "All");
             params.put("Keywords", query);
             params.put("ResponseGroup", "Images,ItemAttributes,ItemIds,Offers");
 
             requestUrl = helper.sign(params);
-            Log.v("aurl",requestUrl);
+            Log.v("amazonAPI_URL",requestUrl);
 
             try {
                 URL url = new URL(requestUrl);
                 urlConnection= (HttpURLConnection) url.openConnection();
-                urlConnection.setConnectTimeout(10000);
-                urlConnection.setReadTimeout(10000);
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setReadTimeout(5000);
 
                 urlConnection.connect();
 
                 if(urlConnection.getResponseCode()==200){
 
                     InputStream inputStream=urlConnection.getInputStream();
-//                    InputStreamReader reader=new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+//                    InputStream gl=inputStream;
+//                    InputStreamReader reader=new InputStreamReader(gl, Charset.forName("UTF-8"));
 //                    BufferedReader bufferedReader=new BufferedReader(reader);
 //
 //                    StringBuilder builder = new StringBuilder();
@@ -124,9 +130,9 @@ public class NetworkUtility {
 //                        builder.append(line);
 //                        line=bufferedReader.readLine();
 //                    }
-////                    inputStream.close();
-//
-//                    Log.v("aws",(builder.toString()));
+//                    inputStream.close();
+
+                    Log.v("aws","good request");
                     return inputStream;
                 }else
                     Log.v("aws","wrong request");

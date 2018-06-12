@@ -48,6 +48,9 @@ public class FlipkartJSONParsing {
                 products.add(product);
             }
 
+            if (products.size()==0)
+                return null;
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

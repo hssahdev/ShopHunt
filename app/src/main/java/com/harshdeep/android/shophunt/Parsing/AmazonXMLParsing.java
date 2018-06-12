@@ -63,7 +63,7 @@ public class AmazonXMLParsing {
             e.printStackTrace();
             Log.e("pull",e.toString());
         } finally {
-//            input.close();
+            input.close();
         }
 
 
