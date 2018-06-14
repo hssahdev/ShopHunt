@@ -5,11 +5,6 @@
 
     <group android:checkableBehavior="single">
 
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-
         <item android:id="@+id/rateOnPlaystore"
             android:title="Rate on Play Store"
             android:icon="@drawable/ic_baseline_grade_24px"/>

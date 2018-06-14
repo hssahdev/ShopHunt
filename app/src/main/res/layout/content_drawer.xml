@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -44,6 +45,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:id="@+id/arrowButton"
             />
+
     </LinearLayout>
 
     <RelativeLayout
@@ -54,8 +56,17 @@
 
         <ProgressBar
             android:layout_width="wrap_content"
+            android:id="@+id/circle"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Getting Products"
+            android:layout_below="@+id/circle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"/>
 
     </RelativeLayout>
 
@@ -73,18 +84,36 @@
             />
     </RelativeLayout>
 
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/listView"
         android:divider="@null"
-        android:visibility="gone"
+        android:layout_weight="2"
+        android:visibility="visible"
         />
 
     <GridView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/gridView"
+        android:visibility="gone"
+        android:layout_weight="2"
         android:numColumns="2"/>
+
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"/>
+
+    </LinearLayout>
 
 </LinearLayout>

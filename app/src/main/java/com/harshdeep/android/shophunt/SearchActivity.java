@@ -35,6 +35,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 
 import java.util.List;
@@ -44,13 +48,30 @@ public class SearchActivity extends AppCompatActivity
 
     String keyword;
     List<Product> productList;
+    private AdView mAdView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Log.v("Ad","AdFailedtoLoad "+errorCode);
+                mAdView.setVisibility(View.GONE);
+            }
+
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         final FilterDialogBox dialogBox = new FilterDialogBox();
@@ -244,16 +265,26 @@ public class SearchActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-         if(id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
+        if (id == R.id.nav_share) {
+             Intent sendIntent = new Intent();
+             sendIntent.setAction(Intent.ACTION_SEND);
+             sendIntent.putExtra(Intent.EXTRA_TEXT, "check this out :https://play.google.com/store/apps/details?id=com.google.android.apps.searchlite");
+             sendIntent.setType("text/url");
+             startActivity(Intent.createChooser(sendIntent, "Share"));
         }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void onInviteClicked() {
+        Intent intent = new AppInviteInvitation.IntentBuilder("Share")
+                .setMessage("1")
+                .setCallToActionText("rter")
+                .build();
+        startActivityForResult(intent, 1);
     }
 
     @NonNull
@@ -343,7 +374,4 @@ public class SearchActivity extends AppCompatActivity
     public void onLoaderReset(@NonNull Loader loader) {
     }
 
-    interface blah{
-        void is();
-    }
 }
