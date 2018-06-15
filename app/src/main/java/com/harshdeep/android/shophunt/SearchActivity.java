@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +18,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,11 +29,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +38,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.harshdeep.android.shophunt.Parsing.ProductGridAdapter;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 
 import java.util.List;
@@ -49,6 +49,9 @@ public class SearchActivity extends AppCompatActivity
     String keyword;
     List<Product> productList;
     private AdView mAdView;
+    private RecyclerView recyclerView;
+    ProductListAdapter listAdapter;
+    ProductGridAdapter gridAdapter;
 
 
     @Override
@@ -58,6 +61,9 @@ public class SearchActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        recyclerView=findViewById(R.id.recyclerView);
+
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -232,23 +238,25 @@ public class SearchActivity extends AppCompatActivity
         SharedPreferences.Editor editor = preferences.edit();
 
         //noinspection SimplifiableIfStatement
-        View gridview,listview;
-        gridview=findViewById(R.id.gridView);
-        listview=findViewById(R.id.listView);
+
+        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+
         if (id == R.id.view_toggle) {
             if(!preferences.getBoolean("isList",true))
             {
                 item.setIcon(R.drawable.round_view_module_white_36dp);
-                gridview.setVisibility(View.GONE);
-                listview.setVisibility(View.VISIBLE);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(listAdapter);
                 Toast.makeText(this, "View Changed to List", Toast.LENGTH_SHORT).show();
                 editor.putBoolean("isList",true);
             }
             else{
                 item.setIcon(R.drawable.round_view_list_white_36dp);
                 Toast.makeText(this, "View Changed to Grid", Toast.LENGTH_SHORT).show();
-                listview.setVisibility(View.GONE);
-                gridview.setVisibility(View.VISIBLE);
+                recyclerView.setLayoutManager(gridLayoutManager);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setAdapter(gridAdapter);
                 editor.putBoolean("isList",false);
             }
             editor.apply();
@@ -301,73 +309,40 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(@NonNull Loader loader, Object data) {
         findViewById(R.id.progreeBar).setVisibility(View.GONE);
-        ListView listView = findViewById(R.id.listView);
-        listView.setEmptyView(findViewById(R.id.emptyView));
-
-        GridView gridView = findViewById(R.id.gridView);
-        gridView.setEmptyView(findViewById(R.id.emptyView));
 
 
         View view = findViewById(R.id.emptyView);
-        ImageView imageView = view.findViewById(R.id.nulllist);
-        imageView.setImageResource(R.drawable.search_error);
+
+
         final List list = (List) data;
 
-        if(list!=null){
+        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+
+        if(list.size()!=0){
+            recyclerView.setVisibility(View.VISIBLE);
+            view.setVisibility(View.GONE);
             productList=(List<Product>) data;
-            ProductListAdapter listAdapter = new ProductListAdapter(this,0,productList);
-            listView.setAdapter(listAdapter);
-            gridView.setAdapter(listAdapter);
+             listAdapter = new ProductListAdapter(productList);
+             gridAdapter = new ProductGridAdapter(productList);
+
+            if(isListView())
+            {
+                recyclerView.setAdapter(listAdapter);
+                recyclerView.setLayoutManager(linearLayoutManager);
+            }
+            else{
+                recyclerView.setAdapter(gridAdapter);
+                recyclerView.setLayoutManager(gridLayoutManager);
+            }
+
         }else{
+            Log.v("Null list","true");
             view.setVisibility(View.VISIBLE);
+            ImageView imageView = view.findViewById(R.id.nulllist);
+            imageView.setImageResource(R.drawable.search_error);
+            recyclerView.setVisibility(View.GONE);
         }
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Product current = (Product) list.get(i);
-                Intent web = new Intent();
-                web.setAction(Intent.ACTION_VIEW);
-
-
-                if (current.isFlipkart) {
-                    FlipkartProduct bss = (FlipkartProduct) current;
-                    web.setData(Uri.parse(bss.getFlipkartURL()));
-                } else {
-                    AmazonProduct am = (AmazonProduct) current;
-                    web.setData(Uri.parse(am.getAmazonURL()));
-                }
-                startActivity(web);
-            }
-        });
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Product current = (Product) list.get(i);
-                Intent web = new Intent();
-                web.setAction(Intent.ACTION_VIEW);
-
-
-                if (current.isFlipkart) {
-                    FlipkartProduct bss = (FlipkartProduct) current;
-                    web.setData(Uri.parse(bss.getFlipkartURL()));
-                } else {
-                    AmazonProduct am = (AmazonProduct) current;
-                    web.setData(Uri.parse(am.getAmazonURL()));
-                }
-                startActivity(web);
-            }
-        });
-
-        if(isListView()) {
-            gridView.setVisibility(View.GONE);
-        }
-        else{
-            listView.setVisibility(View.GONE);
-        }
-        loader.abandon();
-
     }
 
     @Override

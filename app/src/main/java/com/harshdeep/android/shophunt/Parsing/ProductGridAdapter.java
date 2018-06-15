@@ -16,28 +16,28 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
+public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.ViewHolder> {
 
     List<Product> products;
 
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductGridAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View product;
-        product = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item_list,parent,false);
+        product = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item_grid,parent,false);
 
 
-        return new ViewHolder(product);
+        return new ProductGridAdapter.ViewHolder(product);
     }
 
-    public ProductListAdapter(List<Product> products) {
+    public ProductGridAdapter(List<Product> products) {
         this.products = products;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductGridAdapter.ViewHolder holder, int position) {
 
         Product current = products.get(position);
 

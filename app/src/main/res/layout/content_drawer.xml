@@ -78,7 +78,7 @@
         <ImageView
             android:layout_width="300dp"
             android:layout_height="300dp"
-            tools:src="@drawable/nointernet_r_2x"
+            tools:src="@drawable/search_error"
             android:layout_centerInParent="true"
             android:id="@+id/nulllist"
             />
@@ -89,23 +89,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:divider="@null"
+        android:id="@+id/recyclerView"
         android:layout_weight="2"
         android:visibility="visible"
         />
-
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/gridView"
-        android:visibility="gone"
-        android:layout_weight="2"
-        android:numColumns="2"/>
-
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
