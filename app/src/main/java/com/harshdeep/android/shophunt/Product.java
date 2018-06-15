@@ -8,7 +8,7 @@ public class Product implements Comparable<Product> {
     private int price;
     private String ImageURL;
 
-    boolean isFlipkart;
+    public boolean isFlipkart;
 
     public Product() {
     }

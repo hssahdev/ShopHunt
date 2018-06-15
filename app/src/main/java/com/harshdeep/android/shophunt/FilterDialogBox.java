@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.view.View;
-import android.widget.EditText;
 
 public class FilterDialogBox extends DialogFragment {
 
@@ -41,7 +39,7 @@ public class FilterDialogBox extends DialogFragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (choice!=finaly){
                     finaly=choice;
-                    list.processRequest((EditText) getActivity().findViewById(R.id.Key), getActivity().findViewById(R.id.emptyView));
+                    list.sortListAndNotifyAdapter();
                 }
             }
         });
@@ -67,7 +65,7 @@ public class FilterDialogBox extends DialogFragment {
     }
 
     interface GetList{
-        public void processRequest(EditText editText, View view1);
+        void sortListAndNotifyAdapter();
     }
 
 }

@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
@@ -41,6 +43,7 @@ import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.harshdeep.android.shophunt.Parsing.ProductGridAdapter;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity
@@ -266,6 +269,48 @@ public class SearchActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void sortListAndNotifyAdapter(){
+
+        Comparator<? super Product> comparatorAsc = new Comparator<Product>() {
+            @Override
+            public int compare(Product product, Product t1) {
+                if(product.getPrice()>t1.getPrice())
+                    return 1;
+                else if(product.getPrice()<t1.getPrice())
+                    return -1;
+                else
+                    return 0;
+            }
+        };
+
+        Comparator<? super Product> comparatorDesc = new Comparator<Product>() {
+            @Override
+            public int compare(Product product, Product t1) {
+                if(product.getPrice()>t1.getPrice())
+                    return -1;
+                else if(product.getPrice()<t1.getPrice())
+                    return 1;
+                else
+                    return 0;
+            }
+        };
+
+        switch (FilterDialogBox.finaly){
+            case 0:
+                productList.sort(comparatorAsc);
+                break;
+
+            case 1:
+
+                productList.sort(comparatorDesc);
+                break;
+        }
+
+        listAdapter.notifyDataSetChanged();
+        gridAdapter.notifyDataSetChanged();
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -323,8 +368,8 @@ public class SearchActivity extends AppCompatActivity
             recyclerView.setVisibility(View.VISIBLE);
             view.setVisibility(View.GONE);
             productList=(List<Product>) data;
-             listAdapter = new ProductListAdapter(productList);
-             gridAdapter = new ProductGridAdapter(productList);
+             listAdapter = new ProductListAdapter(productList,this);
+             gridAdapter = new ProductGridAdapter(productList,this);
 
             if(isListView())
             {
