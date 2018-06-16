@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -329,6 +330,17 @@ public class SearchActivity extends AppCompatActivity
              sendIntent.putExtra(Intent.EXTRA_TEXT, "check this out :https://play.google.com/store/apps/details?id=com.google.android.apps.searchlite");
              sendIntent.setType("text/url");
              startActivity(Intent.createChooser(sendIntent, "Share"));
+        }else if(id == R.id.downloadFlipkart){
+            Intent web = new Intent();
+            web.setData(Uri.parse("http://affiliate.flipkart.com/install-app?affid=hssahdev252"));
+            web.setAction(Intent.ACTION_VIEW);
+            startActivity(web);
+        }else if(id== R.id.downloadAmazon){
+            Intent web = new Intent();
+            web.setData(Uri.parse("https://play.google.com/store/apps/details?id=in.amazon.mShop.android.shopping&hl=en"));
+            web.setAction(Intent.ACTION_VIEW);
+            startActivity(web);
+
         }
 
 
