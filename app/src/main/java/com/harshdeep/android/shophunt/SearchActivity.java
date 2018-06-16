@@ -56,6 +56,7 @@ public class SearchActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     ProductListAdapter listAdapter;
     ProductGridAdapter gridAdapter;
+    FloatingActionButton fab;
 
 
     @Override
@@ -85,7 +86,7 @@ public class SearchActivity extends AppCompatActivity
 
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+         fab = (FloatingActionButton) findViewById(R.id.fab);
         final FilterDialogBox dialogBox = new FilterDialogBox();
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +107,6 @@ public class SearchActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         final EditText editText=findViewById(R.id.Key);
-        editText.clearFocus();
 
         if(getSupportLoaderManager().getLoader(0)!=null)
             getSupportLoaderManager().initLoader(0,null,this);
@@ -148,6 +148,8 @@ public class SearchActivity extends AppCompatActivity
         keyword=editText.getText().toString().trim();
 
         hideKeyboard(editText);
+        editText.clearFocus();
+
 
         if(!isConnectedtoInternet()){
             view1.setVisibility(View.VISIBLE);
@@ -383,6 +385,23 @@ public class SearchActivity extends AppCompatActivity
                 recyclerView.setAdapter(gridAdapter);
                 recyclerView.setLayoutManager(gridLayoutManager);
             }
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                View edit = findViewById(R.id.editlayout);
+
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (dy > 0 && fab.getVisibility() == View.VISIBLE) {
+                        fab.hide();
+//                        edit.setVisibility(View.GONE);
+                    } else if (dy < 0 && fab.getVisibility() != View.VISIBLE) {
+                        fab.show();
+//                        edit.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
 
         }else{
             Log.v("Null list","true");

@@ -8,6 +8,14 @@
         <item android:id="@+id/rateOnPlaystore"
             android:title="Rate on Play Store"
             android:icon="@drawable/ic_baseline_grade_24px"/>
+
+        <item android:id="@+id/downloadFlipkart"
+            android:title="Download Flipkart"
+            android:icon="@drawable/ic_flipkart_logo"/>
+
+        <item android:id="@+id/downloadAmazon"
+            android:title="Download Amazon"
+            android:icon="@drawable/amazon"/>
     </group>
 
 

@@ -8,11 +8,14 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".SearchActivity"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:showIn="@layout/app_bar_drawer">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/editlayout"
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
@@ -20,6 +23,8 @@
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_marginLeft="5dp"
+            style="@style/Base.Widget.MaterialComponents.TextInputLayout"
+            android:elevation="4dp"
             android:layout_marginTop="5dp"
             android:hint="Search">
 
@@ -27,22 +32,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Key"
+                style="@style/Base.Widget.AppCompat.EditText"
                 android:inputType="textAutoComplete"
                 android:maxLines="1"
                 />
         </android.support.design.widget.TextInputLayout>
 
 
-        <ImageView
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:padding="15dp"
+        <android.support.design.button.MaterialButton
+            android:layout_height="55dp"
+            android:layout_width="50dp"
             android:clickable="true"
             android:focusable="true"
-            android:layout_gravity="center"
-            android:src="@drawable/outline_search_black_36dp"
-            android:background="?android:attr/selectableItemBackground"
+            app:cornerRadius="34dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            app:icon="@drawable/ic_baseline_search_24px"
             android:id="@+id/arrowButton"
             />
 
