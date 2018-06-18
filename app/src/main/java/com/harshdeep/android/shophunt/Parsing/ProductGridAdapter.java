@@ -2,7 +2,6 @@ package com.harshdeep.android.shophunt.Parsing;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import com.harshdeep.android.shophunt.AmazonProduct;
 import com.harshdeep.android.shophunt.FlipkartProduct;
 import com.harshdeep.android.shophunt.Product;
 import com.harshdeep.android.shophunt.R;
+import com.harshdeep.android.shophunt.WebView_Activity;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -70,16 +70,15 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
             public void onClick(View view) {
 
                 Product product = products.get(position);
-                Intent web = new Intent();
-                web.setAction(Intent.ACTION_VIEW);
-
+                Intent web = new Intent(context, WebView_Activity.class);
 
                 if (product.isFlipkart) {
                     FlipkartProduct bss = (FlipkartProduct) product;
-                    web.setData(Uri.parse(bss.getFlipkartURL()));
+                    web.putExtra("url",bss.getFlipkartURL());
                 } else {
                     AmazonProduct am = (AmazonProduct) product;
-                    web.setData(Uri.parse(am.getAmazonURL()));
+                    web.putExtra("url",am.getAmazonURL());
+
                 }
                 context.startActivity(web);
             }

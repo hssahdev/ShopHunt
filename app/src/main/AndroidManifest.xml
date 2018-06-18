@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".QR_CodeActivity"
+        <activity android:name=".WebView_Activity"
             android:parentActivityName=".SearchActivity"></activity>
     </application>
 

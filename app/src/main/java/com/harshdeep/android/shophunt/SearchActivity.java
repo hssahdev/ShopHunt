@@ -73,21 +73,10 @@ public class SearchActivity extends AppCompatActivity
         recyclerView=findViewById(R.id.recyclerView);
 
 
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
-        mAdView.setAdListener(new AdListener(){
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                Log.v("Ad","AdFailedtoLoad "+errorCode);
-                mAdView.setVisibility(View.GONE);
-            }
-
-        });
 
          fab = (FloatingActionButton) findViewById(R.id.fab);
+         fab.setVisibility(View.INVISIBLE);
         final FilterDialogBox dialogBox = new FilterDialogBox();
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +134,9 @@ public class SearchActivity extends AppCompatActivity
     }
 
     public void processRequest(EditText editText, View view1){
+
+        recyclerView.setVisibility(View.VISIBLE);
+        findViewById(R.id.startView).setVisibility(View.GONE);
 
         keyword=editText.getText().toString().trim();
 
@@ -376,7 +368,24 @@ public class SearchActivity extends AppCompatActivity
         View view = findViewById(R.id.emptyView);
 
 
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Log.v("Ad","AdFailedtoLoad "+errorCode);
+                mAdView.setVisibility(View.GONE);
+            }
+
+        });
+
+
         final List list = (List) data;
+
+        fab.setVisibility(View.VISIBLE);
 
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this,2);
