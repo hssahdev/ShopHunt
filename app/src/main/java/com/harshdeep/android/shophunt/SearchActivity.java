@@ -41,7 +41,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.harshdeep.android.shophunt.Parsing.ProductGridAdapter;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 
@@ -341,13 +340,6 @@ public class SearchActivity extends AppCompatActivity
         return true;
     }
 
-    private void onInviteClicked() {
-        Intent intent = new AppInviteInvitation.IntentBuilder("Share")
-                .setMessage("1")
-                .setCallToActionText("rter")
-                .build();
-        startActivityForResult(intent, 1);
-    }
 
     @NonNull
     @Override
