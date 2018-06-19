@@ -318,7 +318,7 @@ public class SearchActivity extends AppCompatActivity
         if (id == R.id.nav_share) {
              Intent sendIntent = new Intent();
              sendIntent.setAction(Intent.ACTION_SEND);
-             sendIntent.putExtra(Intent.EXTRA_TEXT, "check this out :https://play.google.com/store/apps/details?id=com.google.android.apps.searchlite");
+             sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
              sendIntent.setType("text/url");
              startActivity(Intent.createChooser(sendIntent, "Share"));
         }else if(id == R.id.downloadFlipkart){
@@ -332,6 +332,20 @@ public class SearchActivity extends AppCompatActivity
             web.setAction(Intent.ACTION_VIEW);
             startActivity(web);
 
+        }else if(id==R.id.rateOnPlaystore){
+            Intent web = new Intent();
+            web.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.harshdeep.android.shophunt"));
+            web.setAction(Intent.ACTION_VIEW);
+            startActivity(web);
+        }else if(id == R.id.feedback){
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setType("*/*");
+            intent.setData(Uri.parse("mailto:"));
+            String []emailId = {"hssahdev252@gmail.com"};
+            intent.putExtra(Intent.EXTRA_EMAIL, emailId);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
         }
 
 
