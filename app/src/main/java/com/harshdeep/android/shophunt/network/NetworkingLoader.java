@@ -1,4 +1,4 @@
-package com.harshdeep.android.shophunt;
+package com.harshdeep.android.shophunt.network;
 
 import android.content.Context;
 import android.os.Build;
@@ -9,7 +9,7 @@ import android.support.v4.content.AsyncTaskLoader;
 
 import com.harshdeep.android.shophunt.Parsing.AmazonXMLParsing;
 import com.harshdeep.android.shophunt.Parsing.FlipkartJSONParsing;
-import com.harshdeep.android.shophunt.network.NetworkUtility;
+import com.harshdeep.android.shophunt.Product;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import java.util.List;
 public class NetworkingLoader extends AsyncTaskLoader<List<Product>> {
 
     String keyword;
+    public static int flag;
 
     public NetworkingLoader(@NonNull Context context, String keyword) {
         super(context);
@@ -37,18 +38,27 @@ public class NetworkingLoader extends AsyncTaskLoader<List<Product>> {
             FlipkartProducts = flipkartJSONParsing.getProducts();
 
             if(AmazonProducts!=null)
-            AmazonProducts.remove(AmazonProducts.size()-1);
+            {
+                AmazonProducts.remove(AmazonProducts.size()-1);
+                if(AmazonProducts.size()==0)
+                    AmazonProducts=null;
+            }
 
             int fp=0,am=0;
+
 
             if(FlipkartProducts == null && AmazonProducts== null)
                 return null;
             else if(FlipkartProducts == null && AmazonProducts!= null){
                 finallist=AmazonProducts;
+                flag=1;
             }else if(FlipkartProducts != null && AmazonProducts == null){
                 finallist=FlipkartProducts;
+                flag=2;
             }
             else {
+
+                flag=0;
 
                 while (true) {
                     if (fp < FlipkartProducts.size()) {

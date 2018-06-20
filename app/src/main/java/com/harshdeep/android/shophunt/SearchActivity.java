@@ -41,8 +41,10 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.harshdeep.android.shophunt.Parsing.ProductGridAdapter;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
+import com.harshdeep.android.shophunt.network.NetworkingLoader;
 
 import java.util.Comparator;
 import java.util.List;
@@ -71,8 +73,9 @@ public class SearchActivity extends AppCompatActivity
 
         recyclerView=findViewById(R.id.recyclerView);
 
+        AppRater.app_launched(this);
 
-
+        Log.v("token", FirebaseInstanceId.getInstance().getToken());
 
          fab = (FloatingActionButton) findViewById(R.id.fab);
          fab.setVisibility(View.INVISIBLE);
@@ -97,8 +100,11 @@ public class SearchActivity extends AppCompatActivity
 
         final EditText editText=findViewById(R.id.Key);
 
-        if(getSupportLoaderManager().getLoader(0)!=null)
+        if(getSupportLoaderManager().getLoader(0)!=null){
             getSupportLoaderManager().initLoader(0,null,this);
+            findViewById(R.id.startView).setVisibility(View.GONE);
+
+        }
 
 
 
@@ -373,6 +379,16 @@ public class SearchActivity extends AppCompatActivity
 
         View view = findViewById(R.id.emptyView);
 
+        switch (NetworkingLoader.flag){
+            case 1:
+                Toast.makeText(this, "There seems an error getting FLipkart products, please try again!", Toast.LENGTH_LONG).show();
+                break;
+            case 2:
+                Toast.makeText(this, "There seems an error getting Amazon products, please try again!", Toast.LENGTH_LONG).show();
+                break;
+
+        }
+
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -396,7 +412,7 @@ public class SearchActivity extends AppCompatActivity
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this,2);
 
-        if(list.size()!=0){
+        if(list!=null && list.size()!=0){
             recyclerView.setVisibility(View.VISIBLE);
             view.setVisibility(View.GONE);
             productList=(List<Product>) data;
