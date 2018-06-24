@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 
 public class AppRater {
 
@@ -25,6 +26,7 @@ public class AppRater {
 
         // Increment launch counter
         long launch_count = prefs.getLong("launch_count", 0) + 1;
+        Log.v("launch_count",launch_count+"");
         editor.putLong("launch_count", launch_count);
 
         // Get date of first launch

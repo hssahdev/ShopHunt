@@ -41,7 +41,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.harshdeep.android.shophunt.Parsing.ProductGridAdapter;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 import com.harshdeep.android.shophunt.network.NetworkingLoader;
@@ -75,7 +74,7 @@ public class SearchActivity extends AppCompatActivity
 
         AppRater.app_launched(this);
 
-        Log.v("token", FirebaseInstanceId.getInstance().getToken());
+//        Log.v("token", FirebaseInstanceId.getInstance().getToken());
 
          fab = (FloatingActionButton) findViewById(R.id.fab);
          fab.setVisibility(View.INVISIBLE);
@@ -391,7 +390,7 @@ public class SearchActivity extends AppCompatActivity
 
 
         mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("945078DA0123C830EEE9A326098932C9").build();
         mAdView.loadAd(adRequest);
 
         mAdView.setAdListener(new AdListener(){
