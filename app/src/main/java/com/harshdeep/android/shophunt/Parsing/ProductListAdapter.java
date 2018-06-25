@@ -2,6 +2,7 @@ package com.harshdeep.android.shophunt.Parsing;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,16 +55,34 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ImageView logoImage = holder.produvtView.findViewById(R.id.logo);
 
         if(current.isFlipkart())
-            logoImage.setImageResource(R.drawable.flipkart_logo_detail);
+            logoImage.setImageResource(R.drawable.ic_flipkart_icon);
         else
-            logoImage.setImageResource(R.drawable.amazon_logo);
+            logoImage.setImageResource(R.drawable.ic_icons8_amazon_2);
 
         TextView textView = (TextView)holder.produvtView.findViewById(R.id.productTitle);
         textView.setText(current.getProductTitle().trim());
 
+        int MRP = current.getMRP();
+        int price = current.getPrice();
+
         textView = holder.produvtView.findViewById(R.id.price);
         NumberFormat numberFormat = NumberFormat.getInstance(new Locale("hi", "IN"));
-        textView.setText(numberFormat.getCurrency().getSymbol()+numberFormat.format(current.getPrice()));
+        textView.setText(numberFormat.getCurrency().getSymbol()+numberFormat.format(price));
+
+
+        if(price!=MRP && MRP>price){
+            textView = holder.produvtView.findViewById(R.id.MRP);
+            textView.setText(numberFormat.getCurrency().getSymbol()+numberFormat.format(MRP));
+            textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            textView = holder.produvtView.findViewById(R.id.discount);
+            int discount = ((MRP - price)*100)/ MRP;
+            textView.setText(discount+"% OFF");
+        }else {
+            ((TextView)holder.produvtView.findViewById(R.id.MRP)).setText("");
+            ((TextView)holder.produvtView.findViewById(R.id.discount)).setText("");
+        }
+
 
         holder.produvtView.setOnClickListener(new View.OnClickListener() {
             @Override

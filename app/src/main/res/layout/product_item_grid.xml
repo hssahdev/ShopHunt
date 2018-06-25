@@ -29,8 +29,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginTop="5dp"
-                android:layout_gravity="center"
-                tools:src="@drawable/outline_search_black_36dp" />
+                android:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/productTitle"
@@ -46,30 +45,64 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingLeft="10dp"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_gravity="center_vertical"
-                    tools:src="@drawable/amazon_logo" />
 
-                <TextView
-                    android:id="@+id/price"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    tools:text="$12,11,000" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textColor="@android:color/black"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        tools:text="$12,11,000" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="fddsfd"
+                            android:id="@+id/MRP"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textStyle="bold|italic"
+                            android:textColor="@android:color/holo_red_dark"
+                            tools:text="gdgfgf"
+                            android:id="@+id/discount"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="clip_horizontal"
+                        android:id="@+id/logo"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="8dp"
+                        tools:src="@drawable/ic_icons8_amazon_2"/>
+                </RelativeLayout>
+
 
 
             </LinearLayout>

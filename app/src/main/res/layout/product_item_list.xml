@@ -24,8 +24,8 @@
         android:background="?android:attr/selectableItemBackground"
         >
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_margin="5dp"
         android:layout_gravity="center"
         android:id="@+id/image"
@@ -46,7 +46,7 @@
         tools:text="title"
         android:id="@+id/productTitle"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
@@ -60,21 +60,43 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:textStyle="bold"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="5dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             tools:text="afds" />
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:id="@+id/logo"
-            android:layout_toStartOf="@id/price"
-            android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"
-            tools:src="@drawable/amazon_logo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="fddsfd"
+            android:id="@+id/MRP"/>
 
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textStyle="italic|bold"
+            android:textColor="@android:color/holo_red_dark"
+            android:id="@+id/discount"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/logo"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_centerVertical="true"
+                tools:src="@drawable/ic_icons8_amazon_2"
+                android:layout_gravity="end"/>
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
 
     </LinearLayout>
 

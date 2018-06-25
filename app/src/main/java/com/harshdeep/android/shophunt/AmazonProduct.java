@@ -35,7 +35,7 @@ public class AmazonProduct extends Product {
 
     public void parseXML(XmlPullParser parser) {
         int event;
-        boolean [] flag=new boolean[4];
+        boolean [] flag=new boolean[5];
 
         try {
 //            parser.require(XmlPullParser.START_TAG, null, "Item");
@@ -57,20 +57,28 @@ public class AmazonProduct extends Product {
                         setImageURL(readText(parser));
                         flag[1]=true;
                     }
+                    else if(parser.getName().equals("ListPrice")){
+                        while(!parser.getName().equals("Amount"))
+                            parser.nextTag();
+                        int mrp=Integer.parseInt(readText(parser))/100;
+//                        Log.v("MRP aws",""+mrp);
+                        setMRP(mrp);
+                        flag[2]=true;
+                    }
                     else if (parser.getName().equals("Title")) {
 //                        System.out.println(readText(parser));
                         setProductTitle(readText(parser));
-                        flag[2]=true;
+                        flag[3]=true;
                     }
                     else if(parser.getName().equals("Price")){
                         while(!parser.getName().equals("Amount"))
                             parser.nextTag();
 //                        System.out.println(readText(parser));
                         setPrice(Integer.parseInt(readText(parser))/100);
-                        flag[3]=true;
+                        flag[4]=true;
                     }
             }
-            if(flag[0] && flag[1] && flag[2] && flag[3])
+            if(flag[0] && flag[1] && flag[2] && flag[3] && flag[4])
                 return;
             event = parser.next();
         }

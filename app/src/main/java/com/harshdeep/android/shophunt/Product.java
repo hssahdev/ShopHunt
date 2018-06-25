@@ -6,6 +6,7 @@ public class Product implements Comparable<Product> {
     private String productTitle;
 
     private int price;
+    private int MRP;
     private String ImageURL;
 
     public boolean isFlipkart;
@@ -19,6 +20,14 @@ public class Product implements Comparable<Product> {
 
     public int getPrice() {
         return price;
+    }
+
+    public int getMRP() {
+        return MRP;
+    }
+
+    public void setMRP(int MRP) {
+        this.MRP = MRP;
     }
 
     public void setPrice(int price) {

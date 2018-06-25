@@ -7,11 +7,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
@@ -37,15 +35,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.harshdeep.android.shophunt.Parsing.ProductGridAdapter;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 import com.harshdeep.android.shophunt.network.NetworkingLoader;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity
@@ -271,41 +266,33 @@ public class SearchActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sortListAndNotifyAdapter(){
-
-        Comparator<? super Product> comparatorAsc = new Comparator<Product>() {
-            @Override
-            public int compare(Product product, Product t1) {
-                if(product.getPrice()>t1.getPrice())
-                    return 1;
-                else if(product.getPrice()<t1.getPrice())
-                    return -1;
-                else
-                    return 0;
-            }
-        };
-
-        Comparator<? super Product> comparatorDesc = new Comparator<Product>() {
-            @Override
-            public int compare(Product product, Product t1) {
-                if(product.getPrice()>t1.getPrice())
-                    return -1;
-                else if(product.getPrice()<t1.getPrice())
-                    return 1;
-                else
-                    return 0;
-            }
-        };
 
         switch (FilterDialogBox.finaly){
             case 0:
-                productList.sort(comparatorAsc);
+                for (int i=0;i<productList.size();i++){
+                    for(int j=0;j<productList.size()-i-1;j++){
+                        if(productList.get(j).getPrice()>productList.get(j+1).getPrice()){
+                            Product temp = productList.get(j);
+                            productList.set(j,productList.get(j+1));
+                            productList.set(j+1,temp);
+                        }
+                    }
+                }
                 break;
 
             case 1:
 
-                productList.sort(comparatorDesc);
+                for (int i=0;i<productList.size();i++){
+                    for(int j=0;j<productList.size()-i-1;j++){
+                        if(productList.get(j).getPrice()<productList.get(j+1).getPrice()){
+                            Product temp = productList.get(j);
+                            productList.set(j,productList.get(j+1));
+                            productList.set(j+1,temp);
+                        }
+                    }
+                }
+
                 break;
         }
 
@@ -389,19 +376,19 @@ public class SearchActivity extends AppCompatActivity
         }
 
 
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("945078DA0123C830EEE9A326098932C9").build();
-        mAdView.loadAd(adRequest);
-
-        mAdView.setAdListener(new AdListener(){
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                Log.v("Ad","AdFailedtoLoad "+errorCode);
-                mAdView.setVisibility(View.GONE);
-            }
-
-        });
+//        mAdView = findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().addTestDevice("945078DA0123C830EEE9A326098932C9").build();
+//        mAdView.loadAd(adRequest);
+//
+//        mAdView.setAdListener(new AdListener(){
+//            @Override
+//            public void onAdFailedToLoad(int errorCode) {
+//                // Code to be executed when an ad request fails.
+//                Log.v("Ad","AdFailedtoLoad "+errorCode);
+//                mAdView.setVisibility(View.GONE);
+//            }
+//
+//        });
 
 
         final List list = (List) data;
