@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "416178458143",
+    "firebase_url": "https://shophunt-fce68.firebaseio.com",
+    "project_id": "shophunt-fce68",
+    "storage_bucket": "shophunt-fce68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416178458143:android:0b53779a3f9b44d5",
+        "android_client_info": {
+          "package_name": "com.harshdeep.android.shophunt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416178458143-ncjjtgurj2mf3mg4ttq1v3bnuo9hkfo6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.harshdeep.android.shophunt",
+            "certificate_hash": "7fd220ec5eb9056f5274473d976b72abe6d1ba07"
+          }
+        },
+        {
+          "client_id": "416178458143-b5fnv6ebe1htie3dl6ssc8hut90epb42.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "416178458143-b5fnv6ebe1htie3dl6ssc8hut90epb42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXHRVAU4Axeis9GbO514Zr42wM63THqKc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416178458143-b5fnv6ebe1htie3dl6ssc8hut90epb42.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -43,7 +43,6 @@ public class AppRater {
                 showRateDialog(mContext, editor);
             }
         }
-
         editor.apply();
     }
 

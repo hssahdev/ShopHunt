@@ -7,7 +7,6 @@ android {
             keyPassword 'harshdeep'
             storeFile file('/Users/harshdeepsingh/AndroidStudioProjects/keystore.jks')
             storePassword 'hssahdev252'
-            v2SigningEnabled false
         }
     }
     compileSdkVersion 28
@@ -15,8 +14,8 @@ android {
         applicationId "com.harshdeep.android.shophunt"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 5
-        versionName "1.5"
+        versionCode 6
+        versionName "1.51"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -31,6 +30,7 @@ android {
     }
     productFlavors {
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
