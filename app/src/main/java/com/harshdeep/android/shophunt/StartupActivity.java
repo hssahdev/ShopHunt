@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 public class StartupActivity extends AppCompatActivity {
 
-    private final int SPLASH_DISPLAY_LENGTH = 500;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
 
 
     @Override
@@ -17,12 +17,7 @@ public class StartupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
 
-//        View decorView = getWindow().getDecorView();
-//// Hide the status bar.
-//        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-//        decorView.setSystemUiVisibility(uiOptions);
-// Remember that you should never show the action bar if the
-// status bar is hidden, so hide that too if necessary.
+
         getSupportActionBar().hide();
 
         /* New Handler to start the Menu-Activity

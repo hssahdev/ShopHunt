@@ -19,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,35 +31,45 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.gson.Gson;
 import com.harshdeep.android.shophunt.Parsing.ProductGridAdapter;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
 import com.harshdeep.android.shophunt.network.NetworkingLoader;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,LoaderManager.LoaderCallbacks , FilterDialogBox.GetList{
 
     String keyword;
+    String AUTO_COMPLETE="AUTOCOMPLETE";
     List<Product> productList;
     private AdView mAdView;
     private RecyclerView recyclerView;
     ProductListAdapter listAdapter;
     ProductGridAdapter gridAdapter;
     FloatingActionButton fab;
-
+    ArrayAdapter<String> autoCompleteAdapter;
+    HashSet<String> keywordHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+        keywordHolder=new HashSet<>();
 
         MobileAds.initialize(this, "ca-app-pub-2631882660749155~1074356874");
 
@@ -100,11 +111,10 @@ public class SearchActivity extends AppCompatActivity
 
         }
 
-
-
         final View view1 = findViewById(R.id.emptyView);
         view1.setVisibility(View.GONE);
 
+        setUpAutoComplete(editText);
         editText.setImeOptions(EditorInfo.IME_ACTION_GO);
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -132,6 +142,26 @@ public class SearchActivity extends AppCompatActivity
         });
     }
 
+    private void setUpAutoComplete(EditText editText){
+
+        SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file_key),MODE_PRIVATE);
+        String jsonText = preferences.getString(AUTO_COMPLETE,null);
+        Gson gson = new Gson();
+
+        if (jsonText==null){
+            String[] blah = {"iPhone"};
+            jsonText=gson.toJson(blah);
+            System.out.println("JSON :"+jsonText);
+        }
+        preferences.edit().putString(AUTO_COMPLETE,jsonText).apply();
+        List<String> stringlist = Arrays.asList(gson.fromJson(jsonText, String[].class));
+        Log.v("autocomplete", "List: "+stringlist);
+        AppCompatAutoCompleteTextView autoCompleteTextView = (AppCompatAutoCompleteTextView) editText;
+        autoCompleteAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, stringlist);
+        autoCompleteTextView.setAdapter(autoCompleteAdapter);
+        autoCompleteAdapter.setNotifyOnChange(true);
+    }
+
     public void processRequest(EditText editText, View view1){
 
         recyclerView.setVisibility(View.VISIBLE);
@@ -154,6 +184,13 @@ public class SearchActivity extends AppCompatActivity
         }else {
             editText.setError(null);
             findViewById(R.id.progreeBar).setVisibility(View.VISIBLE);
+
+            if(autoCompleteAdapter.getPosition(keyword)==-1){
+                autoCompleteAdapter.add(keyword);
+                keywordHolder.add(keyword);
+            }
+
+
             getSupportLoaderManager().restartLoader(0, null, SearchActivity.this).forceLoad();
         }
     }
@@ -175,6 +212,25 @@ public class SearchActivity extends AppCompatActivity
         boolean isConnected = networkInfo!=null && networkInfo.isConnectedOrConnecting();
         Log.v("IsConnected",isConnected+"");
         return isConnected;
+    }
+
+    @Override
+    protected void onPause() {
+        // Add search history
+        SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file_key),MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        String jsonText = preferences.getString(AUTO_COMPLETE, null);
+        Gson gson = new Gson();
+        List<String> arrayList = new ArrayList<>(Arrays.asList(gson.fromJson(jsonText, String[].class)));
+        System.out.println("onPause arraylist: "+arrayList);
+        for(String s: new ArrayList<>(keywordHolder)){
+            if(!arrayList.contains(s))
+                arrayList.add(s);
+            Log.v("autocomplete","onPause() addition: "+s);
+        }
+        editor.putString(AUTO_COMPLETE, gson.toJson(arrayList));
+        editor.apply();
+        super.onPause();
     }
 
     @Override
@@ -376,19 +432,19 @@ public class SearchActivity extends AppCompatActivity
         }
 
 
-//        mAdView = findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest.Builder().addTestDevice("945078DA0123C830EEE9A326098932C9").build();
-//        mAdView.loadAd(adRequest);
-//
-//        mAdView.setAdListener(new AdListener(){
-//            @Override
-//            public void onAdFailedToLoad(int errorCode) {
-//                // Code to be executed when an ad request fails.
-//                Log.v("Ad","AdFailedtoLoad "+errorCode);
-//                mAdView.setVisibility(View.GONE);
-//            }
-//
-//        });
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("945078DA0123C830EEE9A326098932C9").build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Log.v("Ad","AdFailedtoLoad "+errorCode);
+                mAdView.setVisibility(View.GONE);
+            }
+
+        });
 
 
         final List list = (List) data;

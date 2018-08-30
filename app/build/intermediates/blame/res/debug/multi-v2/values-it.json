@@ -4,24 +4,7 @@
             "outputFile": "/Users/harshdeepsingh/AndroidStudioProjects/ShopHunt/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-it/values-it.xml",
             "map": [
                 {
-                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.0.0.aar/7992bd80e3182f9b2765494dab12999b/res/values-it/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "205",
-                        "endColumns": "99",
-                        "endOffsets": "304"
-                    },
-                    "to": {
-                        "startLines": "37",
-                        "startColumns": "4",
-                        "startOffsets": "4577",
-                        "endColumns": "103",
-                        "endOffsets": "4676"
-                    }
-                },
-                {
-                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-alpha1.aar/cc92480f6c0d3c13ad7863c8126e6654/res/values-it/values-it.xml",
+                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-alpha1.aar/475a7741b818afb7f8d8b9da3a69799f/res/values-it/values-it.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,24 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/play-services-ads-15.0.1.aar/c6a1fd9474914caf7b3465a39b540d7c/res/values-it/values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10",
-                        "startColumns": "0,0,0,0,0,0,0",
-                        "startOffsets": "197,268,397,462,527,610,722",
-                        "endColumns": "70,128,64,64,82,111,74",
-                        "endOffsets": "267,396,461,526,609,721,796"
-                    },
-                    "to": {
-                        "startLines": "38,39,40,41,42,43,44",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "4681,4756,4889,4958,5027,5114,5230",
-                        "endColumns": "74,132,68,68,86,115,78",
-                        "endOffsets": "4751,4884,4953,5022,5109,5225,5304"
-                    }
-                },
-                {
-                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/a60385569b00b19c5d23b2f08590af1c/res/values-it/values-it.xml",
+                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/7a4c4a6670aff99dc4844b1c6c22c836/res/values-it/values-it.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -72,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/7d148001a1b2cd8fdccb581728817ab0/res/values-it/values.xml",
+                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.0.0.aar/fb88841dc1bce0a3fc6a19594a6c1027/res/values-it/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "205",
+                        "endColumns": "99",
+                        "endOffsets": "304"
+                    },
+                    "to": {
+                        "startLines": "37",
+                        "startColumns": "4",
+                        "startOffsets": "4577",
+                        "endColumns": "103",
+                        "endOffsets": "4676"
+                    }
+                },
+                {
+                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/1b04947ffc08fb3f8c14f9236cc19c01/res/values-it/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -89,7 +72,24 @@
                     }
                 },
                 {
-                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/baf649ad56b582809b989a8078c84f82/res/values-it/values.xml",
+                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/play-services-ads-15.0.1.aar/5c2d8c473fb93c875e5e66d5808fab3b/res/values-it/values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "197,268,397,462,527,610,722",
+                        "endColumns": "70,128,64,64,82,111,74",
+                        "endOffsets": "267,396,461,526,609,721,796"
+                    },
+                    "to": {
+                        "startLines": "38,39,40,41,42,43,44",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "4681,4756,4889,4958,5027,5114,5230",
+                        "endColumns": "74,132,68,68,86,115,78",
+                        "endOffsets": "4751,4884,4953,5022,5109,5225,5304"
+                    }
+                },
+                {
+                    "source": "/Users/harshdeepsingh/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/afe7a1598f3de6381246bf7877f57f29/res/values-it/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",

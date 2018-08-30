@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu Jul 19 15:58:37 IST 2018
+#Sat Jul 28 16:05:18 IST 2018
 1.base=/Users/harshdeepsingh/AndroidStudioProjects/ShopHunt/app/build/intermediates/transforms/dexMerger/release/0
 0.baseType=DIRECTORY
 1.baseType=DIRECTORY

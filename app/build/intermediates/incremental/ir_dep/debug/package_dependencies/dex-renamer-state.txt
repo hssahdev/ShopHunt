@@ -1,4 +1,4 @@
-#Thu Jul 19 14:51:47 IST 2018
-base.0=/Users/harshdeepsingh/AndroidStudioProjects/ShopHunt/app/build/intermediates/transforms/dexMerger/debug/27
+#Thu Aug 30 18:13:26 IST 2018
+base.0=/Users/harshdeepsingh/AndroidStudioProjects/ShopHunt/app/build/intermediates/transforms/dexMerger/debug/44
 path.0=classes.dex
 renamed.0=classes.dex
