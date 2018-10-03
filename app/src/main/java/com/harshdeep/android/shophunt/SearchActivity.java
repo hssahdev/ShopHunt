@@ -37,10 +37,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+//import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.harshdeep.android.shophunt.Parsing.ProductGridAdapter;
 import com.harshdeep.android.shophunt.Parsing.ProductListAdapter;
@@ -57,7 +54,7 @@ public class SearchActivity extends AppCompatActivity
     String keyword;
     String AUTO_COMPLETE="AUTOCOMPLETE";
     List<Product> productList;
-    private AdView mAdView;
+//    private AdView mAdView;
     private RecyclerView recyclerView;
     ProductListAdapter listAdapter;
     ProductGridAdapter gridAdapter;
@@ -71,7 +68,7 @@ public class SearchActivity extends AppCompatActivity
         setContentView(R.layout.activity_drawer);
         keywordHolder=new HashSet<>();
 
-        MobileAds.initialize(this, "ca-app-pub-2631882660749155~1074356874");
+//        MobileAds.initialize(this, "ca-app-pub-2631882660749155~1074356874");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -164,8 +161,7 @@ public class SearchActivity extends AppCompatActivity
 
     public void processRequest(EditText editText, View view1){
 
-        recyclerView.setVisibility(View.VISIBLE);
-        findViewById(R.id.startView).setVisibility(View.GONE);
+
 
         keyword=editText.getText().toString().trim();
 
@@ -182,6 +178,8 @@ public class SearchActivity extends AppCompatActivity
         else if(keyword.length()==0){
             editText.setError("This cannot be empty");
         }else {
+            recyclerView.setVisibility(View.VISIBLE);
+            findViewById(R.id.startView).setVisibility(View.GONE);
             editText.setError(null);
             findViewById(R.id.progreeBar).setVisibility(View.VISIBLE);
 
@@ -263,7 +261,7 @@ public class SearchActivity extends AppCompatActivity
 
         SharedPreferences preferences = getSharedPreferences(getString(R.string.preference_file_key),MODE_PRIVATE);
 
-        if(preferences.getBoolean("isList",true))
+        if(preferences.getBoolean("isList",false))
         {
             menu.findItem(R.id.view_toggle).setIcon(R.drawable.round_view_module_white_36dp);
         }
@@ -299,7 +297,7 @@ public class SearchActivity extends AppCompatActivity
         RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this,2);
 
         if (id == R.id.view_toggle) {
-            if(!preferences.getBoolean("isList",true))
+            if(!preferences.getBoolean("isList",false))
             {
                 item.setIcon(R.drawable.round_view_module_white_36dp);
                 recyclerView.setLayoutManager(linearLayoutManager);
@@ -411,7 +409,7 @@ public class SearchActivity extends AppCompatActivity
 
     private boolean isListView(){
         SharedPreferences preferences = getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-        return preferences.getBoolean("isList",true);
+        return preferences.getBoolean("isList",false);
     }
 
     @Override
@@ -432,19 +430,19 @@ public class SearchActivity extends AppCompatActivity
         }
 
 
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("945078DA0123C830EEE9A326098932C9").build();
-        mAdView.loadAd(adRequest);
-
-        mAdView.setAdListener(new AdListener(){
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                Log.v("Ad","AdFailedtoLoad "+errorCode);
-                mAdView.setVisibility(View.GONE);
-            }
-
-        });
+//        mAdView = findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
+//
+//        mAdView.setAdListener(new AdListener(){
+//            @Override
+//            public void onAdFailedToLoad(int errorCode) {
+//                // Code to be executed when an ad request fails.
+//                Log.v("Ad","AdFailedtoLoad "+errorCode);
+//                mAdView.setVisibility(View.GONE);
+//            }
+//
+//        });
 
 
         final List list = (List) data;
@@ -473,17 +471,13 @@ public class SearchActivity extends AppCompatActivity
 
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
-                View edit = findViewById(R.id.editlayout);
-
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                     if (dy > 0 && fab.getVisibility() == View.VISIBLE) {
                         fab.hide();
-//                        edit.setVisibility(View.GONE);
                     } else if (dy < 0 && fab.getVisibility() != View.VISIBLE) {
                         fab.show();
-//                        edit.setVisibility(View.VISIBLE);
                     }
                 }
             });
