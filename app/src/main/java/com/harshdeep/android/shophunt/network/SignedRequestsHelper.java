@@ -1,5 +1,13 @@
 package com.harshdeep.android.shophunt.network;
 
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
@@ -25,16 +33,39 @@ public class SignedRequestsHelper {
     private static final String REQUEST_URI = "/onca/xml";
     private static final String REQUEST_METHOD = "GET";
 
+    private static DatabaseReference mDatabase;
 
-
-    private String endpoint = "webservices.amazon.in"; // must be lowercase
-    private String awsAccessKeyId = "AKIAJIPQKZ2LJUWMMCSA";
-    private String awsSecretKey = "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";
+    private static String endpoint = "webservices.amazon.in"; // must be lowercase
+    private static String awsAccessKeyId;
+    private static String awsSecretKey;
 
     private SecretKeySpec secretKeySpec = null;
     private Mac mac = null;
 
+
+
     public SignedRequestsHelper() {
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                awsAccessKeyId = dataSnapshot.child("awsAccess").getValue(String.class);
+                awsSecretKey =  dataSnapshot.child("awsKEy").getValue(String.class);
+                // ...
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("blah", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+        mDatabase.addValueEventListener(postListener);
+
         byte[] secretyKeyBytes = new byte[0];
         try {
             secretyKeyBytes = awsSecretKey.getBytes(UTF8_CHARSET);

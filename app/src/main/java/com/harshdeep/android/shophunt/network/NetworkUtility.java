@@ -119,18 +119,6 @@ public class NetworkUtility {
                 if(urlConnection.getResponseCode()==200){
 
                     InputStream inputStream=urlConnection.getInputStream();
-//                    InputStream gl=inputStream;
-//                    InputStreamReader reader=new InputStreamReader(gl, Charset.forName("UTF-8"));
-//                    BufferedReader bufferedReader=new BufferedReader(reader);
-//
-//                    StringBuilder builder = new StringBuilder();
-//                    String line=bufferedReader.readLine();
-//
-//                    while(line!=null){
-//                        builder.append(line);
-//                        line=bufferedReader.readLine();
-//                    }
-//                    inputStream.close();
 
                     Log.v("aws","good request");
                     return inputStream;

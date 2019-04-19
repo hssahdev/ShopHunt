@@ -387,7 +387,7 @@ public class SearchActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setType("*/*");
             intent.setData(Uri.parse("mailto:"));
-            String []emailId = {"hssahdev252@gmail.com"};
+            String []emailId = {"xanderapps252@gmail.com"};
             intent.putExtra(Intent.EXTRA_EMAIL, emailId);
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="default_web_client_id" translatable="false">416178458143-b5fnv6ebe1htie3dl6ssc8hut90epb42.apps.googleusercontent.com</string>
-    <string name="firebase_database_url" translatable="false">https://shophunt-fce68.firebaseio.com</string>
-    <string name="gcm_defaultSenderId" translatable="false">416178458143</string>
-    <string name="google_api_key" translatable="false">AIzaSyAXHRVAU4Axeis9GbO514Zr42wM63THqKc</string>
-    <string name="google_app_id" translatable="false">1:416178458143:android:0b53779a3f9b44d5</string>
-    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAXHRVAU4Axeis9GbO514Zr42wM63THqKc</string>
-    <string name="google_storage_bucket" translatable="false">shophunt-fce68.appspot.com</string>
-    <string name="project_id" translatable="false">shophunt-fce68</string>
+    <string name="default_web_client_id" translatable="false">319467074276-1dv3bpd3v899k8knv1irmbkdffhghn4b.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://shophunt-494b8.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">319467074276</string>
+    <string name="google_api_key" translatable="false">AIzaSyBbcf2X5j7t3p-lwNbUf3wKtwKqD9Q6IZE</string>
+    <string name="google_app_id" translatable="false">1:319467074276:android:0b53779a3f9b44d5</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBbcf2X5j7t3p-lwNbUf3wKtwKqD9Q6IZE</string>
+    <string name="google_storage_bucket" translatable="false">shophunt-494b8.appspot.com</string>
+    <string name="project_id" translatable="false">shophunt-494b8</string>
 </resources>
